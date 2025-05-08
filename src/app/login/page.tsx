@@ -3,8 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  const router = useRouter();
+  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,22 +15,39 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
 
-    // Here you would normally connect to your auth API
-    // For now, just simulate loading
-    setTimeout(() => {
+    try {
+      const res = await fetch('/api/auth/register/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (res.ok) {
+        const user = await res.json();
+        console.log('Login successful:', user);
+        router.push('/dashboard'); // Redirect after successful login
+      } else {
+        const data = await res.json();
+        setError(data.error || 'Login failed. Please try again.');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Something went wrong. Please try again.');
+    } finally {
       setIsLoading(false);
-      window.location.href = '/dashboard';
-      console.log('Login attempted with:', { email, password });
-    }, 1000);
+    }
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="text-center">
-          <Link href="/" className="inline-block">
-            <h1 className="text-2xl font-bold text-gray-600">Zeal</h1>
+          <Link href="/" className="text-2xl font-bold text-gray-600 inline-block">
+            Zeal
           </Link>
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-700">
@@ -45,6 +65,8 @@ export default function Login() {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
+
+              {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>

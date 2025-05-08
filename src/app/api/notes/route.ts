@@ -32,7 +32,7 @@ export async function POST(request: Request) {
         const { title, content } = json;
 
         // Hardcoded user ID for now
-        const userId = 'user123';
+        const userId = 'cmaffbny20000ej0v789r1bac';
 
         const note = await prisma.page.create({
             data: {
