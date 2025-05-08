@@ -60,7 +60,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
                         value={title}
                         onChange={handleTitleChange}
                         placeholder="Note title"
-                        className="text-xl font-bold w-full outline-none focus:ring-2 focus:ring-purple-200 rounded px-2 py-1"
+                        className="text-xl text-gray-600 font-bold w-full outline-none focus:ring-2 focus:ring-purple-200 rounded px-2 py-1"
                     />
                 </div>
             </div>
@@ -70,7 +70,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
                     value={content}
                     onChange={handleContentChange}
                     placeholder="Start writing your note..."
-                    className="w-full h-full resize-none outline-none focus:ring-2 focus:ring-purple-200 rounded p-2"
+                    className="w-full h-full resize-none outline-none focus:ring-2 focus:ring-purple-200 rounded p-2 text-gray-600"
                 />
             </div>
 
