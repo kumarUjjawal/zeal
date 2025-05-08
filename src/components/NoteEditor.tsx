@@ -5,23 +5,36 @@ import React, { useState, useEffect } from 'react';
 interface Note {
     id: string;
     title: string;
-    content: string;
+    content: any;
+    updatedAt: string;
 }
 
 interface NoteEditorProps {
     note: Note;
-    onUpdateNoteAction: (id: string, title: string, content: string) => void;
+    onUpdateNote: (id: string, title: string, content: string) => void;
 }
 
-export default function NoteEditor({ note, onUpdateNoteAction }: NoteEditorProps) {
+export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
     const [title, setTitle] = useState(note?.title || '');
     const [content, setContent] = useState(note?.content || '');
 
     // Update local state when active note changes
     useEffect(() => {
         if (note) {
-            setTitle(note.title);
-            setContent(note.content);
+            setTitle(note.title || 'Untitled Note');
+
+            // Handle different content formats
+            if (typeof note.content === 'string') {
+                setContent(note.content);
+            } else if (note.content?.blocks) {
+                // If it's stored as JSON content with blocks
+                const textContent = note.content.blocks
+                    .map((block: any) => block.text)
+                    .join('\n\n');
+                setContent(textContent);
+            } else {
+                setContent('');
+            }
         }
     }, [note]);
 
@@ -30,7 +43,7 @@ export default function NoteEditor({ note, onUpdateNoteAction }: NoteEditorProps
         const newTitle = e.target.value;
         setTitle(newTitle);
         if (note) {
-            onUpdateNoteAction(note.id, newTitle, content);
+            onUpdateNote(note.id, newTitle, content);
         }
     };
 
@@ -38,10 +51,21 @@ export default function NoteEditor({ note, onUpdateNoteAction }: NoteEditorProps
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const newContent = e.target.value;
         setContent(newContent);
+
+        // Convert text to JSON format for storage
+        const contentJson = JSON.stringify({
+            blocks: newContent.split('\n\n').map(paragraph => ({
+                type: 'paragraph',
+                text: paragraph
+            })).filter(block => block.text.trim() !== '')
+        });
+
         if (note) {
-            onUpdateNoteAction(note.id, title, newContent);
+            // Use debounce or throttle in a real app to limit update frequency
+            onUpdateNote(note.id, title, contentJson);
         }
     };
+
 
     if (!note) {
         return (

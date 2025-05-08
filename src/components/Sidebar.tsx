@@ -6,17 +6,20 @@ import Link from 'next/link';
 interface Note {
     id: string;
     title: string;
-    content: string;
+    content: any;
+    updatedAt: string;
 }
 
 interface SidebarProps {
     notes: Note[];
-    activeNoteId: string;
+    activeNoteId: string | null;
     onSelectNote: (id: string) => void;
     onCreateNote: () => void;
+    onDeleteNote: (id: string) => void;
 }
 
-export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNote }: SidebarProps) {
+
+export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNote, onDeleteNote }: SidebarProps) {
     return (
         <div className="w-64 h-full bg-gray-50 border-r border-gray-200 flex flex-col">
             <div className="p-4 border-b border-gray-200">
@@ -45,11 +48,29 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                             onClick={() => onSelectNote(note.id)}
                             className={`p-3 rounded-lg cursor-pointer ${note.id === activeNoteId
                                 ? 'bg-purple-200 text-purple-700'
-                                : 'hover:bg-purple-300'
-                                }`}
+                                : 'hover:bg-purple-300'}
+                            `}
                         >
                             <div className="font-medium text-gray-600 truncate">{note.title}</div>
-                            <div className="text-sm text-gray-500 truncate">{note.content}</div>
+                            <div className="text-sm text-gray-500 truncate">
+                                {typeof note.content === 'string'
+                                    ? note.content
+                                    : note.content?.blocks?.[0]?.text || ''}
+                            </div>
+                            <div className="text-xs text-gray-400 mt-1">
+                                {new Date(note.updatedAt).toLocaleDateString()}
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    onDeleteNote(note.id);
+                                }}
+                                className="mt-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                </svg>
+                            </button>
                         </div>
                     ))}
                 </div>
