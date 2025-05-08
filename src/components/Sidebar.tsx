@@ -20,6 +20,24 @@ interface SidebarProps {
 
 
 export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNote, onDeleteNote }: SidebarProps) {
+
+    function getPreviewText(content: any): string {
+        if (typeof content === 'string') {
+            try {
+                const parsed = JSON.parse(content);
+                if (parsed?.blocks?.[0]?.text) {
+                    return parsed.blocks[0].text;
+                }
+                return content;
+            } catch {
+                return content;
+            }
+        } else if (content?.blocks?.[0]?.text) {
+            return content.blocks[0].text;
+        } else {
+            return '';
+        }
+    }
     return (
         <div className="w-64 h-full bg-gray-50 border-r border-gray-200 flex flex-col">
             <div className="p-4 border-b border-gray-200">
@@ -53,9 +71,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                         >
                             <div className="font-medium text-gray-600 truncate">{note.title}</div>
                             <div className="text-sm text-gray-500 truncate">
-                                {typeof note.content === 'string'
-                                    ? note.content
-                                    : note.content?.blocks?.[0]?.text || ''}
+                                {getPreviewText(note.content)}
                             </div>
                             <div className="text-xs text-gray-400 mt-1">
                                 {new Date(note.updatedAt).toLocaleDateString()}

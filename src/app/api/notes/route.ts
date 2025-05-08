@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     try {
         // For now, we'll use a hardcoded user ID since we don't have auth yet
         // Later, this would come from the authenticated session
-        const userId = 'user123';
+        const userId = 'cmaffbny20000ej0v789r1bac';
 
         const notes = await prisma.page.findMany({
             where: {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
         const note = await prisma.page.create({
             data: {
                 title: title || 'Untitled Note',
-                content: content ? JSON.parse(JSON.stringify(content)) : {},
+                content: "",
                 userId: userId,
             },
         });

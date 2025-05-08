@@ -16,7 +16,7 @@ interface NoteEditorProps {
 
 export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
     const [title, setTitle] = useState(note?.title || '');
-    const [content, setContent] = useState(note?.content || '');
+    const [content, setContent] = useState('');
 
     const debouncedUpdateNote = useMemo(
         () => debounce((newTitle, newContent) => {
@@ -29,11 +29,23 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
         if (note) {
             setTitle(note.title || 'Untitled Note');
 
-            // Handle different content formats
             if (typeof note.content === 'string') {
-                setContent(note.content);
+                try {
+                    const parsed = JSON.parse(note.content);
+                    if (parsed?.blocks) {
+                        const textContent = parsed.blocks
+                            .map((block: any) => block.text)
+                            .join('\n\n');
+                        setContent(textContent);
+                    } else {
+                        // Just plain text, no JSON blocks
+                        setContent(note.content);
+                    }
+                } catch (e) {
+                    // Not JSON, treat as plain text
+                    setContent(note.content);
+                }
             } else if (note.content?.blocks) {
-                // If it's stored as JSON content with blocks
                 const textContent = note.content.blocks
                     .map((block: any) => block.text)
                     .join('\n\n');
@@ -58,19 +70,20 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
         const newContent = e.target.value;
         setContent(newContent);
 
-        // Convert text to JSON format for storage
-        const contentJson = JSON.stringify({
-            blocks: newContent.split('\n\n').map(paragraph => ({
+        const blocks = newContent
+            .split('\n\n')
+            .map(paragraph => ({
                 type: 'paragraph',
                 text: paragraph
-            })).filter(block => block.text.trim() !== '')
-        });
+            }))
+            .filter(block => block.text.trim() !== '');
+
+        const contentJson = blocks.length > 0 ? JSON.stringify({ blocks }) : '';
 
         if (note) {
-            debouncedUpdateNote(title, contentJson);  // 👈 use debounce!
+            debouncedUpdateNote(title, contentJson);
         }
     };
-
 
     if (!note) {
         return (
