@@ -1,5 +1,5 @@
 "use client";
-
+import debounce from 'lodash.debounce';
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import NoteEditor from '../../components/NoteEditor';
@@ -43,32 +43,32 @@ export default function NotesPage() {
 
   const activeNote = notes.find(note => note.id === activeNoteId);
 
-  const updateNote = async (id: string, title: string, content: string) => {
+  const updateNote = async (id: string, title: string, content: any) => {
     try {
-      // Optimistically update the UI
       setNotes(prevNotes =>
         prevNotes.map(note =>
-          note.id === id ? { ...note, title, content: JSON.parse(content), updatedAt: new Date().toISOString() } : note
+          note.id === id ? { ...note, title, content, updatedAt: new Date().toISOString() } : note
         )
       );
 
-      // Send update to API
       const response = await fetch(`/api/notes/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content: JSON.parse(content) }),
+        body: JSON.stringify({ title, content }),  // ✅ clean
       });
 
       if (!response.ok) throw new Error('Failed to update note');
 
-      // Update with the server response if needed
       const updatedNote = await response.json();
+      setNotes(prevNotes =>
+        prevNotes.map(note =>
+          note.id === id ? { ...note, ...updatedNote } : note
+        )
+      );
     } catch (error) {
       console.error('Error updating note:', error);
-      // Rollback in case of error could be implemented here
     }
   };
-
   const createNewNote = async () => {
     try {
       const response = await fetch('/api/notes', {

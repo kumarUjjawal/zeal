@@ -26,10 +26,12 @@ export async function GET(
 // PATCH /api/notes/[id] - Update a note
 export async function PATCH(
     request: Request,
-    { params }: { params: { id: string } }
+    context: { params: { id: string } }
 ) {
     try {
+        const { params } = await context;  // ✅ safer: await context in case it's a promise
         const id = params.id;
+
         const json = await request.json();
         const { title, content } = json;
 
@@ -48,7 +50,6 @@ export async function PATCH(
         return NextResponse.json({ error: 'Error updating note' }, { status: 500 });
     }
 }
-
 // DELETE /api/notes/[id] - Delete a note (or archive it)
 export async function DELETE(
     request: Request,

@@ -1,6 +1,6 @@
 "use client";
-
-import React, { useState, useEffect } from 'react';
+import debounce from 'lodash.debounce';
+import React, { useState, useEffect, useMemo } from 'react';
 
 interface Note {
     id: string;
@@ -18,6 +18,12 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
     const [title, setTitle] = useState(note?.title || '');
     const [content, setContent] = useState(note?.content || '');
 
+    const debouncedUpdateNote = useMemo(
+        () => debounce((newTitle, newContent) => {
+            onUpdateNote(note.id, newTitle, newContent);
+        }, 500),
+        [note.id]
+    );
     // Update local state when active note changes
     useEffect(() => {
         if (note) {
@@ -36,14 +42,14 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
                 setContent('');
             }
         }
-    }, [note]);
+    }, [note.id]);
 
     // Handle title change
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newTitle = e.target.value;
         setTitle(newTitle);
         if (note) {
-            onUpdateNote(note.id, newTitle, content);
+            debouncedUpdateNote(newTitle, content);  // 👈 debounce!
         }
     };
 
@@ -61,8 +67,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
         });
 
         if (note) {
-            // Use debounce or throttle in a real app to limit update frequency
-            onUpdateNote(note.id, title, contentJson);
+            debouncedUpdateNote(title, contentJson);  // 👈 use debounce!
         }
     };
 
@@ -99,7 +104,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
             </div>
 
             <div className="p-4 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
-                <div>Last edited {new Date().toLocaleDateString()}</div>
+                <div>Last edited {new Date(note.updatedAt).toLocaleDateString()}</div>
                 <div>{content.split(' ').filter(Boolean).length} words</div>
             </div>
         </div>
