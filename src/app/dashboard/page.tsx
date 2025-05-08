@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   const activeNote = notes.find(note => note.id === activeNoteId) || notes[0];
 
-  const updateNote = (id: string, title: string, content: string) => {
+  const updateNoteAction = (id: string, title: string, content: string) => {
     setNotes(prevNotes =>
       prevNotes.map(note =>
         note.id === id ? { ...note, title, content } : note
@@ -44,7 +44,7 @@ export default function Dashboard() {
       />
       <NoteEditor
         note={activeNote}
-        onUpdateNote={updateNote}
+        onUpdateNoteAction={updateNoteAction}
       />
     </div>
   );

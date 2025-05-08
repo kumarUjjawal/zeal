@@ -10,10 +10,10 @@ interface Note {
 
 interface NoteEditorProps {
     note: Note;
-    onUpdateNote: (id: string, title: string, content: string) => void;
+    onUpdateNoteAction: (id: string, title: string, content: string) => void;
 }
 
-export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
+export default function NoteEditor({ note, onUpdateNoteAction }: NoteEditorProps) {
     const [title, setTitle] = useState(note?.title || '');
     const [content, setContent] = useState(note?.content || '');
 
@@ -30,7 +30,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
         const newTitle = e.target.value;
         setTitle(newTitle);
         if (note) {
-            onUpdateNote(note.id, newTitle, content);
+            onUpdateNoteAction(note.id, newTitle, content);
         }
     };
 
@@ -39,7 +39,7 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
         const newContent = e.target.value;
         setContent(newContent);
         if (note) {
-            onUpdateNote(note.id, title, newContent);
+            onUpdateNoteAction(note.id, title, newContent);
         }
     };
 
