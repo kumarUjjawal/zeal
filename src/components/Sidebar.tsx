@@ -1,5 +1,5 @@
 "use client";
-
+import Image from 'next/image';
 import React from 'react';
 import Link from 'next/link';
 
@@ -42,7 +42,8 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
         <div className="w-64 h-full bg-gray-50 flex flex-col">
             <div className="p-4">
                 <Link href="/" className="flex items-center">
-                    <h1 className="text-xl font-bold text-purple-600">FlowSpace</h1>
+                    <Image src='/logo.png' alt="FlowSpace" width={50} height={50} className="bg-gray-50" />
+                    <h1 className="text-xl font-bold text-gray-800">FlowSpace</h1>
                 </Link>
             </div>
 
@@ -50,7 +51,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                 <h2 className="text-lg text-gray-600 font-medium">Your Notes</h2>
                 <button
                     onClick={onCreateNote}
-                    className="p-2 rounded-full bg-purple-100 text-purple-600 hover:bg-purple-200"
+                    className="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
@@ -94,7 +95,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
 
             <div className="p-4">
                 <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center text-purple-700 font-medium">
+                    <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-medium">
                         U
                     </div>
                     <div className="ml-2">

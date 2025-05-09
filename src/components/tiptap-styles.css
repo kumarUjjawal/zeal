@@ -1,0 +1,15 @@
+/* Minimal required TipTap styles - the rest is handled by Tailwind */
+
+/* Placeholder styling */
+.tiptap p.is-editor-empty:first-child::before {
+  color: #9ca3af; /* text-gray-400 equivalent */
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Checkbox styling for task lists - can't be easily done with just Tailwind */
+ul[data-type="taskList"] li > label input[type="checkbox"] {
+  margin-right: 0.5rem;
+}

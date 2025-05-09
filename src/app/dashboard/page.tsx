@@ -122,7 +122,7 @@ export default function NotesPage() {
     return (
       <div className="flex h-screen items-center justify-center bg-white">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-gray-200 border-t-gray-600 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your notes...</p>
         </div>
       </div>
@@ -152,7 +152,7 @@ export default function NotesPage() {
             <p className="text-gray-500 mb-4">Select a note from the sidebar or create a new one</p>
             <button
               onClick={createNewNote}
-              className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
             >
               Create New Note
             </button>
