@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Zeal",
+  title: "FlowSpace",
   description: "Your workspace, organized.",
 };
 

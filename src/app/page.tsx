@@ -8,7 +8,7 @@ export default function Home() {
       <main className="container mx-auto px-4 py-16">
         <nav className="flex justify-between items-center mb-16">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-600">Zeal</h1>
+            <h1 className="text-2xl font-bold text-gray-600">FlowSpace</h1>
           </div>
           <div>
             <Link
@@ -91,7 +91,7 @@ export default function Home() {
 
         <footer className="mt-32 py-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 mb-4 md:mb-0">© 2025 Zeal. All rights reserved.</p>
+            <p className="text-gray-500 mb-4 md:mb-0">© 2025 FlowSpace. All rights reserved.</p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-500 hover:text-gray-700">Terms</a>
               <a href="#" className="text-gray-500 hover:text-gray-700">Privacy</a>

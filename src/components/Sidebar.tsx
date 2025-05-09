@@ -42,7 +42,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
         <div className="w-64 h-full bg-gray-50 flex flex-col">
             <div className="p-4">
                 <Link href="/" className="flex items-center">
-                    <h1 className="text-xl font-bold text-purple-600">Zeal</h1>
+                    <h1 className="text-xl font-bold text-purple-600">FlowSpace</h1>
                 </Link>
             </div>
 
@@ -65,15 +65,15 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                             key={note.id}
                             onClick={() => onSelectNote(note.id)}
                             className={`p-3 rounded-lg cursor-pointer ${note.id === activeNoteId
-                                ? 'bg-purple-200 text-purple-700'
-                                : 'hover:bg-purple-300'}
+                                ? 'bg-gray-200 text-gray-600'
+                                : 'hover:bg-gray-200'}
                             `}
                         >
                             <div className="font-medium text-gray-600 truncate">{note.title}</div>
-                            <div className="text-sm text-gray-500 truncate">
+                            <div className="text-sm text-gray-600 truncate">
                                 {getPreviewText(note.content)}
                             </div>
-                            <div className="text-xs text-gray-400 mt-1">
+                            <div className="text-xs text-gray-600 mt-1">
                                 {new Date(note.updatedAt).toLocaleDateString()}
                             </div>
                             <button
@@ -81,7 +81,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                                     e.stopPropagation();
                                     onDeleteNote(note.id);
                                 }}
-                                className="mt-2 p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded"
+                                className="mt-2 p-1 text-gray-600 hover:text-red-500 hover:bg-red-50 rounded"
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

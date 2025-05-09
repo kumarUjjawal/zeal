@@ -1,5 +1,4 @@
 "use client";
-import debounce from 'lodash.debounce';
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/Sidebar';
 import NoteEditor from '../../components/NoteEditor';
