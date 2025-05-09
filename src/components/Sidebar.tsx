@@ -39,14 +39,14 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
         }
     }
     return (
-        <div className="w-64 h-full bg-gray-50 border-r border-gray-200 flex flex-col">
-            <div className="p-4 border-b border-gray-200">
+        <div className="w-64 h-full bg-gray-50 flex flex-col">
+            <div className="p-4">
                 <Link href="/" className="flex items-center">
                     <h1 className="text-xl font-bold text-purple-600">Zeal</h1>
                 </Link>
             </div>
 
-            <div className="p-4 flex justify-between items-center border-b border-gray-200">
+            <div className="p-4 flex justify-between items-center">
                 <h2 className="text-lg text-gray-600 font-medium">Your Notes</h2>
                 <button
                     onClick={onCreateNote}
@@ -92,7 +92,7 @@ export default function Sidebar({ notes, activeNoteId, onSelectNote, onCreateNot
                 </div>
             </div>
 
-            <div className="p-4 border-t border-gray-200">
+            <div className="p-4">
                 <div className="flex items-center">
                     <div className="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center text-purple-700 font-medium">
                         U

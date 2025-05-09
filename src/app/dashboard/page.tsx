@@ -140,10 +140,12 @@ export default function NotesPage() {
         onDeleteNote={deleteNote}
       />
       {activeNote ? (
-        <NoteEditor
-          note={activeNote}
-          onUpdateNote={updateNote}
-        />
+        <div className='flex-1 overflow-y-auto'>
+          <NoteEditor
+            note={activeNote}
+            onUpdateNote={updateNote}
+          />
+        </div>
       ) : (
         <div className="flex-1 flex items-center justify-center bg-gray-50">
           <div className="text-center p-8">

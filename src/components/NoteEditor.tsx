@@ -94,31 +94,45 @@ export default function NoteEditor({ note, onUpdateNote }: NoteEditorProps) {
     }
 
     return (
-        <div className="flex-1 flex flex-col h-full">
-            <div className="p-4 border-b border-gray-200">
-                <div className="flex items-center">
-                    <input
-                        type="text"
-                        value={title}
-                        onChange={handleTitleChange}
-                        placeholder="Note title"
-                        className="text-xl text-gray-600 font-bold w-full outline-none focus:ring-2 focus:ring-purple-200 rounded px-2 py-1"
-                    />
+        <div
+            className="flex flex-col h-full w-full bg-white"
+            onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.tagName !== 'TEXTAREA' && target.tagName !== 'INPUT') {
+                    document.getElementById('note-textarea')?.focus();
+                }
+            }}
+        >
+            {/* This wrapper centers your text content */}
+            <div className="flex-1 flex flex-col items-center overflow-y-auto">
+                <div className="w-full max-w-3xl flex-1 flex flex-col">
+                    <div className="p-4 mt-30">
+                        <div className="flex items-center">
+                            <input
+                                type="text"
+                                value={title}
+                                onChange={handleTitleChange}
+                                placeholder="Note title"
+                                className="text-xl text-gray-600 font-bold w-full outline-none py-1"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex-1 p-4 w-full">
+                        <textarea
+                            id="note-textarea"
+                            value={content}
+                            onChange={handleContentChange}
+                            placeholder="Start writing your note..."
+                            className="w-full h-full resize-none outline-none text-gray-600 bg-transparent min-h-[60vh]"
+                        />
+                    </div>
+
+                    <div className="p-4 flex justify-between items-center text-sm text-gray-500">
+                        <div>Last edited {new Date(note.updatedAt).toLocaleDateString()}</div>
+                        <div>{content.split(' ').filter(Boolean).length} words</div>
+                    </div>
                 </div>
-            </div>
-
-            <div className="flex-1 p-4 overflow-y-auto">
-                <textarea
-                    value={content}
-                    onChange={handleContentChange}
-                    placeholder="Start writing your note..."
-                    className="w-full h-full resize-none outline-none focus:ring-2 focus:ring-purple-200 rounded p-2 text-gray-600"
-                />
-            </div>
-
-            <div className="p-4 border-t border-gray-200 flex justify-between items-center text-sm text-gray-500">
-                <div>Last edited {new Date(note.updatedAt).toLocaleDateString()}</div>
-                <div>{content.split(' ').filter(Boolean).length} words</div>
             </div>
         </div>
     );
